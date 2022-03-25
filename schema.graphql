@@ -1,0 +1,763 @@
+enum BadgeLevels {
+	BRONZE
+	ARGENT
+	OR
+}
+
+enum ExerciseDifficulties {
+	LOW
+	MEDIUM
+	HARD
+}
+
+enum SessionEndsWith {
+	STRETCHING
+	GAME
+}
+
+enum ProgressionType {
+	FREE
+	UNIQUE_STEP
+	PROGRESSIVE_STEP
+}
+
+type Utilisateur {
+	id: ID!
+	email: String!
+	motDePasse: String
+	createdAt: String
+	updatedAt: String
+	validatedAt: String
+	role: String
+	formal: Boolean
+	civility: Int
+	firstname: String
+	birthday: String
+}
+
+type UtilisateurPublic {
+	id: ID!
+	email: String
+	formal: Boolean
+	civility: Int
+	lastname: String
+	firstname: String
+	birthday: String
+	onboardingDone: Boolean
+}
+
+type CoachPublic {
+	id: ID
+	firstname: String
+	label: String
+	description: String
+	color: String
+	image: String
+	order: Int
+}
+
+type CoachDetailPublic {
+	id: ID
+	firstname: String
+	label: String
+	description: String
+	color: String
+	image: String
+	activities: [ ActivityPublic ]
+}
+
+type ActivityPublic {
+	id: ID!
+	title: String
+	subtitle: String
+	description: String
+	availableAt: String
+	image: String
+	icon: String
+	order: Int
+}
+
+type DetailedActivityPublic {
+	id: ID
+	title: String
+	subtitle: String
+	description: String
+	availableAt: String
+	image: String
+	icon: String
+	order: Int
+	progressionType: ProgressionType
+	teaserVideo: String
+	hasLevels: Boolean
+	highestSessionOrderUnlocked: Int
+	nextSessionOrder: Int
+	coaches: [CoachPublic]
+	sessions: [ActivitySessionPublic]
+	equipments: [ActivityEquipmentPublic]
+}
+
+type ActivityEquipmentPublic {
+	id: ID
+	name: String
+	image: String
+	affiliateUrl: String
+	maxQuantity: Int
+	order: Int
+}
+
+type ActivitySessionPublic {
+	id: ID!
+	name: String
+	order: Int
+	level: Int
+	prerequisiteVideo: String
+	endsOnFailure: Boolean
+	endsWith: SessionEndsWith
+	difficulty: ExerciseDifficulties
+	duration: Int
+	withEquipment: Boolean
+	lastCompletedAt: String
+	thumbnail: String
+}
+
+type DetailedSessionPublic {
+	id: ID!
+	name: String
+	order: Int
+	level: Int
+	countdownDuration: Int
+	countdownVideo: String
+	prerequisiteVideo: String
+	endsOnFailure: Boolean
+	endsWith: SessionEndsWith
+	thumbnail: String
+	difficulty: ExerciseDifficulties
+	duration: Int
+	withEquipment: Boolean
+	activity: ActivityPublic
+	coaches: [CoachPublic]
+	equipments: [SessionEquipmentsPublic]
+	muscleGroups: [MuscleGroupsPublic]
+	exercises: [ExercisePublic]
+}
+
+type MuscleGroupsPublic {
+	id: ID!
+	name: String
+	order: Int
+}
+
+type SessionEquipmentsPublic {
+	name: String
+	quantity: Int
+	order: Int
+}
+
+type UserBadgesPublic {
+	id: ID!
+	name: String
+	title: [String]
+	description: [BadgeDescription]
+	availableAt: String
+	level: UserBadgesLevelPublic
+	nextLevel: UserBadgesLevelPublic
+}
+
+type UserBadgesLevelPublic {
+	id: ID
+	"Label null = pas encore de badge, sinon BRONZE, ARGENT ou OR"
+	label: String
+	progression: Int
+	"nextLevelTarget null = niveau maximal atteint"
+	nextLevelTarget: Int
+	availableAt: String
+	obtainedAt: String
+	lastProgressionAt: String
+}
+
+type BadgePublic {
+	id: ID!
+	name: String
+	title: [String]
+	description: [BadgeDescription]
+	availableAt: String
+}
+
+type activityResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	activity: DetailedActivityPublic
+}
+
+type availableActivitiesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	availableActivities: [ActivityPublic]
+}
+
+type coachResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	coach: CoachDetailPublic
+}
+
+type coachesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	coaches: [CoachPublic]
+}
+
+type faqResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	faqs: [FaqListPublic]
+}
+
+type meResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	me: UtilisateurPublic
+	subscription: SubscriptionPublic
+}
+
+type SubscriptionPublic {
+	active: Boolean
+	type: String
+	productId: String
+	startedAt: String
+	endsAt: String
+	autoRenew: Boolean
+	isCancelled: Boolean
+	isVerified: Boolean
+	os: String
+	env: String
+}
+
+type sessionResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	session: DetailedSessionPublic
+}
+
+type staticPageContentResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	staticPageContent: [StaticPageContentPublic]
+}
+
+type staticPagesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	staticPages: [StaticPagePublic]
+}
+
+type upcomingActivitiesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	upcomingActivities: [ActivityPublic]
+}
+
+type userBadgesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	userBadges: [UserBadgesPublic]
+}
+
+type Query {
+	"Détaille les informations disponibles pour une activité"
+	activity(id: String!): activityResponse
+	"Liste toutes les activités disponibles en date"
+	availableActivities: availableActivitiesResponse
+	"Liste les informations d'un coach, avec les activités associées"
+	coach(id: String!): coachResponse
+	"Liste l'ensemble des coachs existant"
+	coaches: coachesResponse,
+	"Liste l'ensemble des questions/réponses catégorisées pour la FAQ"
+	faq: faqResponse
+	"Liste les informations d'un utilisateur"
+	me: meResponse,
+	"Détaille les informations disponibles pour une séance"
+	session(id: String!): sessionResponse
+	"Liste les contenus ordonnés pour une page statique (name à passer en argument)"
+	staticPageContent(staticPageName: String!): staticPageContentResponse
+	"Liste les pages statiques"
+	staticPages: staticPagesResponse
+	"Liste les activités disponibles dans le futur"
+	upcomingActivities: upcomingActivitiesResponse
+	"Liste l'ensemble des badges pour un utilisateur (soit le badge par défaut si pas d'avancement débloqué, soit la progression la plus haute si l'utilisateur a déjà progressé"
+	userBadges: userBadgesResponse
+	"Liste l'ensemble des diplômes pour un utilisateur"
+	certificates: certificatesResponse
+	"Liste l'ensemble des pages à afficher dans les différentes sections Avant de commencer : soit sur la home (activityId null) soit sur une activité"
+	beforeStartingPages(activityId: String): BeforeStartingPagesResponse
+	"Liste l'ensemble du contenu pour une page dans la section Avant de commencer"
+	beforeStartingPage(beforeStartingPageId: String!): BeforeStartingPageResponse
+	"Liste les infos relatives à une séance d'utilisateur"
+	userSession(id: String!): userSessionResponse
+}
+
+interface GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+}
+
+type userSessionResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	userSession: UserSessionPublic
+}
+
+type UserSessionPublic {
+	id: ID
+	createdAt: String
+	updatedAt: String
+	completedAt: String
+	prerequisiteVideoSeen: Boolean
+	endsWithVideoSeen: Boolean
+	failure: Boolean
+	allExerciseCompleted: Boolean
+	isLastSessionForLevel: Boolean
+	levelCompletedWithoutFailure: Boolean
+	session: DetailedSessionPublic
+	utilisateur: UtilisateurPublic
+}
+
+type BeforeStartingPageResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	beforeStartingPage: BeforeStartingPageDetailPublic
+}
+
+type BeforeStartingPageDetailPublic {
+	id: String
+	createdAt: String
+	updatedAt: String
+	name: String
+	thumbnail: String
+	order: Int
+	isEquipmentsList: Boolean
+	isVideo: Boolean
+	activity: ActivityPublic
+	beforeStartingPageContents: [BeforeStartingPageContentPublic]
+}
+
+type BeforeStartingPageContentPublic {
+	id: String
+	createdAt: String
+	updatedAt: String
+	type: BeforeStartingPagesContentType
+	content: String
+	order: Int
+}
+
+enum BeforeStartingPagesContentType {
+	IMAGE
+	SVG
+	TITLE
+	TEXT
+	VIDEO
+	EQUIPMENT
+	TITLEH2
+	TITLEH3
+	TITLEH4
+}
+
+type BeforeStartingPagesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	beforeStartingPages: [BeforeStartingPagePublic]
+}
+
+type BeforeStartingPagePublic {
+	id: String
+	createdAt: String
+	updatedAt: String
+	name: String
+	thumbnail: String
+	order: Int
+}
+
+type certificatesResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	certificates: [CertificatePublic]
+}
+
+type UnlockedBadge {
+	name: String
+	level: String
+	video: [String]
+}
+
+type BadgeDescription {
+	formal: String
+	casual: String
+}
+
+input BadgeDescriptionInput {
+	formal: String
+	casual: String
+}
+
+type Mutation {
+	signupUtilisateur(email: String!, motDePasse: String!): userOperationResponse
+	login(email: String!, motDePasse: String!, os: String!, appVersion: String!): LoginResponse
+	endOnboarding(id: String!, formal: Boolean!, civility: Int!, firstname: String!, birthday: String!): userOperationResponse
+	updateUser(id: String!, civility: Int!, lastname: String, firstname: String!, email: String!, birthday: String!): userOperationResponse
+	changePassword(id: String!, currentPassword: String!, password: String!, confirmPassword: String!): userOperationResponse
+	addCoach(firstname: String!, label: String!, description: String!, image: String, order: Int!): addCoachResponse
+	addActivity(title: String!, subtitle: String, description: String, availableAt: String!, image: String, order: Int!): addActivityResponse
+	linkCoachAndActivity(coachId: String!, activityId: String!): linkCoachAndActivityResponse
+	addBadge(name: String!, title: [String]!, description: [BadgeDescriptionInput]!, availableAt: String!, order: Int!): addBadgeResponse
+	addBadgeLevel(badgeName: String!, level: BadgeLevels, levelOrder: Int!, nextLevelTarget: Int): addBadgeLevelResponse
+	addStaticPage(name: String!, order: Int!): addStaticPageResponse
+	addStaticPageContent(type: ContentType!, content: String!, order: Int!, pageName: String!): addStaticPageContentResponse
+	addFaqCategory(name: String!, order: Int!): addFaqCategoryResponse
+	addFaq(question: String!, answer: String!, categoryName: String!, order: Int!): addFaqResponse
+	"Permet d'ajouter un exercice. 'difficulty' pourra être nul dans le cas d'exercice pour enfant."
+	addExercise(name: String!, difficulty: ExerciseDifficulties, duration: Int!, video: String!, thumbnail: String!, matrixId: Int!): addExerciseResponse
+	linkExerciseAndMuscleGroup(exerciseMatrixId: Int!, muscleGroupIds: [String]!): linkExerciseAndMuscleGroupResponse
+	linkExerciseAndEquipment(exerciseMatrixId: Int!, equipmentsData: [LnkEquipmentsData]!): linkExerciseAndEquipmentResponse
+	refreshToken(os: String!, appVersion: String!): refreshTokenResponse
+	startSession(sessionId: String!, prerequisiteVideoSeen: Boolean): LifecycleSessionResponse
+	endSessionExercise(userSessionExerciseId: String!, failure: Boolean): LifecycleSessionResponse
+	endSession(userSessionId: String!, endsWithVideoSeen: Boolean): LifecycleSessionResponse
+	addAppComment(comment: String!, os: String!, device: String!, appVersion: String!): AppCommentResponse
+	generateCertificate(firstname: String!, lastname: String!, activityId: String!, level: Int, sessionId: String): generateCertificateResponse
+	"Permet d'insérer une transaction suite à un achat in-app. Pour le moment seul l'os ios est okay, et le type ne peut être que subscription"
+	addTransaction(os: String!, type: String!, productId: String!, transactionDate: String!, transactionId: String!, transactionReceipt: String!): addTransactionResponse
+	"Suppression d'un compte utilisateur"
+	deleteUser(userId: String!): deleteUserResponse
+}
+
+type deleteUserResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	"Indique si l'utilisateur a bien été supprimé (peut ne pas être présent dans le cas d'une erreur, fiable que si true)"
+	deleted: Boolean
+	"Indique si l'utilisateur ne pourra être supprimé qu'au terme de son abonnement courant"
+	toDeleteAfterSubscription: Boolean
+}
+
+type addTransactionResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	transaction: TransactionPublic
+}
+
+type TransactionPublic {
+	id: ID!
+	createdAt: String
+	os: String
+	type: String
+	productId: String
+	transactionDate: String
+	transactionId: String
+	utilisateur: UtilisateurPublic
+}
+
+type generateCertificateResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	certificate: CertificatePublic
+}
+
+type CertificatePublic {
+	id: ID!
+	createdAt: String
+	firstname: String
+	lastname: String
+	documentUrl: String
+	level: Int
+	activity: ActivityPublic
+}
+
+type AppCommentResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	appComment: AppCommentPublic
+}
+
+type AppCommentPublic {
+	id: ID!
+	utilisateur: UtilisateurPublic
+	comment: String
+	os: String
+	appVersion: String
+	device: String
+}
+
+type LifecycleSessionResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	sessionEnded: Boolean
+	userSessionId: ID
+	action: LifecycleSessionAction
+}
+
+type LifecycleSessionAction {
+	type: LifecycleSessionActionType
+	entity: UserSessionExercisePublic
+}
+
+enum LifecycleSessionActionType {
+	STRETCHING
+	GAME
+	EXERCISE
+	NONE
+}
+
+type UserSessionExercisePublic {
+	id: ID!
+	completedAt: String
+	failure: Boolean
+	exercise: ExercisePublic
+}
+
+type refreshTokenResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	token: String
+}
+
+input LnkEquipmentsData {
+	id: String!
+	quantity: Int!
+}
+
+type linkExerciseAndEquipmentResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	exercisesEquipments: [ExercisesEquipmentsPublic]
+}
+
+type ExercisesEquipmentsPublic {
+	exerciseId: String
+	equipmentId: String
+	quantity: Int
+}
+
+type linkExerciseAndMuscleGroupResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	exercisesMuscleGroups: [ExerciseMuscleGroupPublic]
+}
+
+type ExerciseMuscleGroupPublic {
+	exerciseId: String
+	muscleGroupId: String
+}
+
+type addExerciseResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	exercise: ExercisePublic
+}
+
+type ExercisePublic {
+	id: ID!
+	name: String
+	"Difficulté de l'exercice peut être nulle dans le cas d'un exercice pour enfants"
+	difficulty: ExerciseDifficulties
+	"Durée de l'exercice en secondes"
+	duration: Int
+	"Chemin vers la vidéo (aujourd'hui un string, demain un JSON potentiellement pour gérer un lien par coach)"
+	video: String
+	"Chemin vers la miniature de la vidéo"
+	thumbnail: String
+	"Identifiant dans la matrice des exercices (cf. [Matrice MMN](https://docs.google.com/spreadsheets/d/1hIJxRxEKvCi5vFrCPw0uoLV7ZkrcBw7mpvMKQVOqbRE/edit?usp=sharing))"
+	matrixId: Int
+	"Indique si l'application doit demander si l'exercice a été réussi"
+	needsValidation: Boolean
+}
+
+type linkCoachAndActivityResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	coachActivity: coachActivity
+}
+
+type coachActivity {
+	coachId: String
+	activityId: String
+}
+
+type addFaqCategoryResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	faqCategory: FaqCategoryPublic
+}
+
+type FaqCategoryPublic {
+	id: ID!
+	name: String
+	order: Int
+}
+
+type addFaqResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	faq: FaqPublic
+}
+
+type FaqPublic {
+	id: ID!
+	type: ContentType
+	question: String
+	answer: String
+	faqCategoryId: String
+	order: Int
+}
+
+type FaqListPublic {
+	category: String,
+	question: String,
+	answer: String
+}
+
+enum ContentType {
+	IMAGE
+	TITLE
+	TEXT
+}
+
+type addStaticPageContentResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	staticPageContent: StaticPageContentPublic
+}
+
+type StaticPageContentPublic {
+	type: ContentType
+	content: String
+	order: Int
+}
+
+type LoginResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	token: String
+}
+
+type userOperationResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	utilisateur: UtilisateurPublic
+}
+
+type addCoachResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	coach: CoachPublic
+}
+
+type addActivityResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	activity: ActivityPublic
+}
+
+type addBadgeResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	badge: BadgePublic
+}
+
+type addBadgeLevelResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	badgeLevel: BadgeLevelPublic
+}
+
+type BadgeLevelPublic {
+	id: String
+	createdAt: String
+	updatedAt: String
+	level: BadgeLevels
+	levelOrder: Int
+	nextLevelTarget: Int
+}
+
+type addStaticPageResponse implements GenericResponse {
+	success: Boolean!
+	message: String
+	errorCode: String
+	newBadges: [UnlockedBadge]
+	staticPage: StaticPagePublic
+}
+
+type StaticPagePublic {
+	id: ID!
+	name: String
+	order: Int
+}
