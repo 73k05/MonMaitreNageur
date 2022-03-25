@@ -53,19 +53,14 @@ export const AuthProvider = ({children}: any) => {
   React.useEffect(() => {
     const initState = async () => {
       try {
-        console.log('Auth Use effect');
         const userToken = await getToken();
-        console.log('After call get item');
         if (userToken !== null) {
           dispatch({type: 'SIGN_IN', token: userToken});
         } else {
           dispatch({type: 'SIGN_OUT'});
         }
       } catch (e) {
-        console.log('Auth Use effect:' + e);
         dispatch({type: 'SIGN_OUT'});
-        // catch error here
-        // Maybe sign_out user!
       }
     };
 

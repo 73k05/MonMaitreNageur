@@ -2,8 +2,11 @@
 
 ## Build & Run
 `yarn global add expo-cli`
+
 `yarn install`
+
 `nvm install 16.14.2`
+
 `nvm use 16.14.2;expo start`
 
 ## Log

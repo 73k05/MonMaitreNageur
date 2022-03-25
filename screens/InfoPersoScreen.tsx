@@ -6,7 +6,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Dimensions,
-  Platform,
 } from 'react-native';
 import {
   Link,
@@ -17,7 +16,7 @@ import {
   ModalDialog,
   AppStatusBar,
 } from '../components';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useAuth} from '../Auth';
 import {colors} from '../assets/style';
 import {gql} from '@apollo/client';
@@ -25,7 +24,7 @@ import updateUserConstraints from '../utils/constraints/mutations/utilisateur/up
 import validate from 'validate.js';
 import {useNotification, useMmnMutation} from '../hooks';
 import {REFRESH_TOKEN} from '../configs/queries';
-import {appVersion, deviceName, osName} from '../utils';
+import {appVersion, osName} from '../utils';
 
 const UPDATE_USER = gql`
   mutation updateUser(
@@ -74,7 +73,6 @@ export const InfoPersoScreen = ({}) => {
   const [updateUser] = useMmnMutation<any>(UPDATE_USER);
   const [refreshToken] = useMmnMutation(REFRESH_TOKEN);
   const [errorForm, setErrorForm] = useState<string | null>(null);
-  const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
   const [deleteUser] = useMmnMutation(gql`
@@ -148,9 +146,7 @@ export const InfoPersoScreen = ({}) => {
         navigation.navigate('DeleteAccount');
         setModalVisible(false);
       }
-    } catch (e) {
-      setError(e);
-    }
+    } catch (e) {}
   };
 
   useEffect(() => {
@@ -164,10 +160,7 @@ export const InfoPersoScreen = ({}) => {
   }, [user]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'position' : ''}
-      keyboardVerticalOffset={-60}
-      style={styles.container}>
+    <KeyboardAvoidingView keyboardVerticalOffset={-60} style={styles.container}>
       <View style={{flex: 1, width: Dimensions.get('window').width}}>
         <ConnectedLayout back={true} title={'Mes infos personnelles'}>
           <AppStatusBar transparent />

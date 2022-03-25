@@ -52,6 +52,8 @@ import analytics from '@react-native-firebase/analytics';
 import {onError} from '@apollo/client/link/error';
 import * as SplashScreen from 'expo-splash-screen';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import {useFonts} from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 const httpLink = createHttpLink({
   uri: GRAPHQL_URL,
@@ -73,7 +75,7 @@ const errorLink = onError(({graphQLErrors}) => {
   }
 });
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink.concat(httpLink), errorLink]),
+  link: ApolloLink.from([errorLink, authLink.concat(httpLink)]),
   cache: new InMemoryCache(),
 });
 
@@ -92,7 +94,6 @@ function AccountStackScreens() {
       <Stack.Screen name={'FAQ'} component={FaqScreen} />
       <Stack.Screen name={'About'} component={AboutScreen} />
       <Stack.Screen name={'Follow'} component={FollowScreen} />
-      {/*<Stack.Screen name={'Subscription'} component={SubscriptionScreen} />*/}
       <Stack.Screen name={'Contact'} component={ContactScreen} />
     </Stack.Navigator>
   );
@@ -158,16 +159,13 @@ function StartScreenStack() {
 }
 
 const Main = ({status}: any) => {
-  console.log('Open app Main');
   const navigationRef = useRef(null);
   if (status === 'idle') {
-    console.log('Idle, cannot work');
     return null;
   }
 
   const initialRoute =
     status === 'signIn' ? 'Home' : status === 'signOut' ? 'Login' : 'Swiper';
-  console.log('Open app');
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -219,18 +217,19 @@ const Main = ({status}: any) => {
 };
 
 const App = () => {
-  console.log('Open app First');
   useEffect(() => {
-    console.log('Open app UseEffect');
-    SplashScreen.hideAsync().then(r => {
-      console.log(`Splash screen hidden: ${r}`);
-    });
-    ScreenOrientation.lockAsync(
-      ScreenOrientation.OrientationLock.PORTRAIT,
-    ).then(value => {
-      console.log(`Orientation locked: ${value}`);
-    });
+    SplashScreen.hideAsync();
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   }, []);
+
+  //  Font loading, before that do not start the app
+  let [fontsLoaded] = useFonts({
+    'Core Mellow': require('./assets/fonts/CoreMellow55.ttf'),
+    'Source Sans Pro': require('./assets/fonts/SourceSansPro-Regular.ttf'),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <ApolloProvider client={client}>
