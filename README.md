@@ -10,6 +10,8 @@
 `nvm use 16.14.2;expo start`
 
 ## Log
+On another terminal tab, run 
+
 `npx react-native log-android`
 
 ## Create new component DOM

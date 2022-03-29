@@ -17,7 +17,6 @@ import {gql} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {activityColorByIterator, colors} from '../assets/style';
 import {useNotification, useRouting} from '../hooks';
-import {useAuth} from '../Auth';
 import LoadingScreen from './LoadingScreen';
 import useMmnLazyQuery from '../hooks/useMmnLazyQuery';
 import {SvgUri} from 'react-native-svg';
@@ -77,8 +76,7 @@ export const HomeScreen = Screen(() => {
   const notification = useNotification();
   notification.show();
   const navigation = useNavigation();
-  const {goLogin, goScreenWithReset} = useRouting();
-  const {user} = useAuth();
+  const {goScreenWithReset} = useRouting();
   const [availableActivities, setAvailableActivities] = useState([]);
   const [beforeStartingActivities, setBeforeStartingActivities] = useState([]);
   const [upcomingActivities, setUpcomingActivities] = useState([]);
@@ -117,14 +115,12 @@ export const HomeScreen = Screen(() => {
 
     if (data?.beforeStartingPages?.beforeStartingPages) {
       setBeforeStartingActivities(
-        data?.beforeStartingPages?.beforeStartingPages.map(
-          (a: any, i: number) => {
-            return {
-              ...a,
-              navigate: '',
-            };
-          },
-        ),
+        data?.beforeStartingPages?.beforeStartingPages.map((a: any) => {
+          return {
+            ...a,
+            navigate: '',
+          };
+        }),
       );
     }
     if (data?.availableActivities?.availableActivities) {
@@ -190,6 +186,7 @@ export const HomeScreen = Screen(() => {
             title={'Avant de commencer'}
             items={beforeStartingActivities || []}
             renderItem={BeforeStarting}
+            horizontal={true}
           />
         )}
         <BlocList
@@ -204,6 +201,8 @@ export const HomeScreen = Screen(() => {
             },
           ]}
           renderItem={BlocItemImage}
+          headlineStyle={{}}
+          horizontal
         />
         {(availableActivities || []).length > 0 && (
           <BlocList
@@ -212,6 +211,7 @@ export const HomeScreen = Screen(() => {
             items={availableActivities || []}
             renderItem={BlocItemAvailable}
             horizontal
+            headlineStyle={{}}
           />
         )}
         {(upcomingActivities || []).length > 0 && (
@@ -221,6 +221,7 @@ export const HomeScreen = Screen(() => {
             renderItem={BlocItemUpcoming || []}
             items={upcomingActivities}
             horizontal
+            headlineStyle={{}}
           />
         )}
       </ScrollView>

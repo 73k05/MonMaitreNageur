@@ -74,6 +74,7 @@ const errorLink = onError(({graphQLErrors}) => {
     graphQLErrors.map(({message}) => console.log(message));
   }
 });
+
 const client = new ApolloClient({
   link: ApolloLink.from([errorLink, authLink.concat(httpLink)]),
   cache: new InMemoryCache(),

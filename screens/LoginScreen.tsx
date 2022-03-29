@@ -7,13 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Device from 'react-native-device-detection';
-import {
-  DefaultLayout,
-  Text,
-  Link,
-  LoginForm,
-  AppStatusBar,
-} from '../components';
+import {DefaultLayout, Link, LoginForm, AppStatusBar} from '../components';
 import {gql, useMutation} from '@apollo/client';
 import Screen from '../hocs/Screen';
 import {useNavigation} from '@react-navigation/native';
@@ -90,12 +84,16 @@ export const LoginScreen = Screen(() => {
   return (
     <KeyboardAvoidingView
       behavior={
-        Platform.OS === 'ios' ? (Device.isTablet ? 'padding' : 'position') : ''
+        Platform.OS === 'ios'
+          ? Device.isTablet
+            ? 'padding'
+            : 'position'
+          : 'height'
       }
       keyboardVerticalOffset={-90}
       style={Device.isTablet ? styles.containerTablet : styles.container}>
       <DefaultLayout
-        back={Device.isTablet ? false : true}
+        back={!Device.isTablet}
         backScreen={'Swiper'}
         styleBack={{paddingRight: 40}}>
         <AppStatusBar transparent />
@@ -116,6 +114,7 @@ export const LoginScreen = Screen(() => {
             error={errorForm}
             forgotten={true}
             submitLabel={'Connexion'}
+            passwordLabel={'Mot de passe'}
           />
           <View style={styles.alignLink}>
             <Link

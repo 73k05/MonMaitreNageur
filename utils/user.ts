@@ -2,39 +2,30 @@ import * as SecureStore from 'expo-secure-store';
 import jwt_decode from 'jwt-decode';
 
 const TOKEN = 'token';
-const SHARED_PERFS = 'ObytesSharedPerfs';
-const KEYCHAIN_SERVICE = 'ObytesKeychain';
-const keyChainOptions = {
-  sharedPreferencesName: SHARED_PERFS,
-  keychainService: KEYCHAIN_SERVICE,
-};
+const keyChainOptions = {requireAuthentication: false};
 
-export async function getItem<T>(key: string): Promise<T | null> {
-  SecureStore.getItemAsync(key, keyChainOptions)
-    .then(value => {
-      return value ? JSON.parse(value)?.[key] || null : null;
-    })
-    .catch(reason => {
-      console.error('Get item error: ' + reason);
-    });
-  return null;
+export async function getItem(key: string): Promise<string | null> {
+  return await SecureStore.getItemAsync(key, keyChainOptions);
 }
 
-export async function setItem<T>(key: string, value: T): Promise<void> {
-  SecureStore.setItemAsync(
-    key,
-    JSON.stringify({[key]: value}),
-    keyChainOptions,
-  );
+export async function setItem(key: string, value: string): Promise<void> {
+  await SecureStore.setItemAsync(key, value, keyChainOptions)
+    .then(() => {
+      return true;
+    })
+    .catch(reason => {
+      console.error(`Not save ${reason}`);
+      return false;
+    });
 }
 
 export async function removeItem(key: string): Promise<void> {
-  SecureStore.deleteItemAsync(key, keyChainOptions);
+  SecureStore.deleteItemAsync(key);
 }
 
-export const getToken = () => getItem<string>(TOKEN);
+export const getToken = () => getItem(TOKEN);
 export const removeToken = () => removeItem(TOKEN);
-export const setToken = (value: string) => setItem<string>(TOKEN, value);
+export const setToken = (value: string) => setItem(TOKEN, value);
 
 export const extractUserFromToken = (token: any): null | UserInterface => {
   const payload: any = jwt_decode(token);

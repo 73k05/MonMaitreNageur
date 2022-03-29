@@ -52,19 +52,18 @@ export const AuthProvider = ({children}: any) => {
 
   React.useEffect(() => {
     const initState = async () => {
-      try {
-        const userToken = await getToken();
-        if (userToken !== null) {
-          dispatch({type: 'SIGN_IN', token: userToken});
-        } else {
-          dispatch({type: 'SIGN_OUT'});
-        }
-      } catch (e) {
+      const token = await getToken();
+      if (token != null) {
+        dispatch({type: 'SIGN_IN', token: token});
+        return true;
+      } else {
         dispatch({type: 'SIGN_OUT'});
+        return false;
       }
     };
-
-    initState();
+    initState().then(r => {
+      console.debug(`Initialized ${r}`);
+    });
   }, []);
 
   React.useImperativeHandle(AuthRef, () => authActions);
@@ -72,8 +71,8 @@ export const AuthProvider = ({children}: any) => {
   const authActions: AuthContextActions = React.useMemo(
     () => ({
       signIn: async (token: string) => {
-        dispatch({type: 'SIGN_IN', token});
         await setToken(token);
+        dispatch({type: 'SIGN_IN', token});
       },
 
       signOut: async () => {

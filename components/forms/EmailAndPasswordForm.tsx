@@ -21,6 +21,7 @@ export interface EmailAndPasswordInterface {
   error?: string | null;
   forgotten?: boolean;
   submitLabel: string;
+  passwordLabel: string;
   generalCondition?: boolean;
   patternMdp?: boolean;
 }
@@ -34,7 +35,7 @@ export const EmailAndPasswordForm = ({
   forgotten = false,
   generalCondition = false,
   submitLabel = '',
-  labelPassword = 'Mot de passe',
+  passwordLabel = '',
   patternMdp = false,
 }: EmailAndPasswordInterface) => {
   const [email, setEmail] = useState<string>('');
@@ -118,15 +119,17 @@ export const EmailAndPasswordForm = ({
           placeholder={'Adresse email'}
           textContentType={'username'}
           noUnderline={true}
+          value={email}
           onChangeText={(value: string): void => setEmail(value)}
           error={!!emailError}
         />
       </View>
       <View style={styles.item}>
         <Input
-          placeholder={labelPassword}
+          placeholder={passwordLabel}
           secureTextEntry={true}
           noUnderline={true}
+          value={motDePasse}
           onChangeText={(value: string) => setMotDePasse(value)}
           error={!!motDePasseError}
         />

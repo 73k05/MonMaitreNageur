@@ -89,7 +89,7 @@ export const SignUpScreen = Screen(() => {
             styles.marginLess,
           ]}>
           <SignUpUtilisateurForm
-            labelPassword="Créer votre mot de passe"
+            passwordLabel="Créer votre mot de passe"
             headline="Je m’inscris"
             loading={loading}
             onSubmit={handleSubmit}
