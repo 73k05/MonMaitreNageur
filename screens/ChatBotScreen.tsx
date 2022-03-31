@@ -117,7 +117,7 @@ export const ChatBotScreen = Screen(() => {
   const navigation = useNavigation();
   const notification = useNotification();
   const {saveUser, user} = useAuth();
-  const [endOnboarding] = useMmnMutation<any>(ONBOARDING);
+  const [endOnboarding] = useMmnMutation(ONBOARDING);
   const timeout = 1000;
 
   const [data, setData] = useState({

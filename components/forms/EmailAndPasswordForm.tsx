@@ -8,7 +8,7 @@ import {
   Linking,
   Dimensions,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'expo-checkbox';
 import {Link, Button, Input, Headline, Text} from '../../components';
 import {colors} from '../../assets/style';
 import validate from 'validate.js';
@@ -128,6 +128,8 @@ export const EmailAndPasswordForm = ({
         <Input
           placeholder={passwordLabel}
           secureTextEntry={true}
+          autoCompleteType={'password'}
+          keyboardType={'visible-password'}
           noUnderline={true}
           value={motDePasse}
           onChangeText={(value: string) => setMotDePasse(value)}
@@ -158,15 +160,7 @@ export const EmailAndPasswordForm = ({
             style={styles.checkboxStyle}
             value={toggleCheckBox}
             onValueChange={newValue => setToggleCheckBox(newValue)}
-            boxType="square"
-            tintColors={{
-              true: colors.pinkD,
-              false: colors.blueD,
-            }}
-            tintColor={colors.blueD}
-            onCheckColor={colors.pinkD}
-            onTintColor={colors.pinkD}
-            lineWidth={1.5}
+            color={toggleCheckBox ? colors.pinkD : colors.blueD}
           />
           <Link
             underline

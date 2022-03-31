@@ -12,6 +12,7 @@ export const useMmnQuery = (GQL: any) => {
     queries.map(queryName => {
       if (data[queryName]?.success === false) {
         const errorCode = data[queryName]?.errorCode || 'UNKNOWN_ERROR';
+        console.error(errorCode);
         switch (errorCode) {
           case 'INVALID_TOKEN_NO_USER':
           case 'INVALID_TOKEN_MISSING_DATA':

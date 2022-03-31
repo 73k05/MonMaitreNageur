@@ -48,7 +48,8 @@ import {AccountIcon, CoachIcon, HomeIcon} from './components';
 import {fonts} from './assets/style';
 import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
 import FlashMessage from 'react-native-flash-message';
-import analytics from '@react-native-firebase/analytics';
+import * as Analytics from 'expo-firebase-analytics';
+import {initializeApp} from 'firebase/app';
 import {onError} from '@apollo/client/link/error';
 import * as SplashScreen from 'expo-splash-screen';
 import * as ScreenOrientation from 'expo-screen-orientation';
@@ -165,8 +166,7 @@ const Main = ({status}: any) => {
     return null;
   }
 
-  const initialRoute =
-    status === 'signIn' ? 'Home' : status === 'signOut' ? 'Login' : 'Swiper';
+  const initialRoute = status === 'signIn' ? 'Home' : 'Swiper';
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -175,7 +175,7 @@ const Main = ({status}: any) => {
         const currentRoute = navigationRef?.current?.getCurrentRoute();
         const currentRouteName = currentRoute?.name || 'Inconnu';
 
-        await analytics().logScreenView({
+        await Analytics.logEvent('screen_view', {
           screen_name: currentRouteName,
           screen_class: currentRouteName,
         });
@@ -221,6 +221,20 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hideAsync();
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAoeOsM5X6N57FUJU3ILsq9DJkrYA1rAug',
+      authDomain: 'project-id.firebaseapp.com',
+      databaseURL: 'https://project-id.firebaseio.com',
+      projectId: 'monmaitrenageur',
+      storageBucket: 'monmaitrenageur.appspot.com',
+      messagingSenderId: 'sender-id',
+      appId: 'app-id',
+      measurementId: 'G-measurement-id',
+    };
+
+    initializeApp(firebaseConfig);
   }, []);
 
   //  Font loading, before that do not start the app

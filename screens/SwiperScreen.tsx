@@ -38,6 +38,8 @@ export const SwiperScreen = ({...props}) => {
       ]}>
       <AppStatusBar />
       <Swiper
+        loop
+        timeout={5}
         controlsProps={{
           prevPos: false,
           nextPos: false,
@@ -56,10 +58,8 @@ export const SwiperScreen = ({...props}) => {
                 styles.textCenter,
                 styles.paddingView,
               ]}>
-              Vous êtes nouveau ici ? Rejoignez-nous et commencez sans plus
-              attendre. Avec nos maîtres nageurs professionnels, vous allez
-              pouvoir utiliser votre piscine pour pratiquer une activité
-              physique régulière !
+              Bienvenue sur la première application d'activité physique
+              aquatique
             </Text>
           </View>
         </View>
@@ -78,9 +78,8 @@ export const SwiperScreen = ({...props}) => {
                 weight="regular"
                 mode="body"
                 style={[styles.textCenter, styles.paddingHeadline]}>
-                Profitez des cours dispensés par nos maîtres nageurs, chez vous
-                ou dans la piscine de votre choix. Il suffit de protéger votre
-                smartphone (ou tablette) et de le poser sur le bord du bassin.
+                Tout d'abord, protégez bien votre smartphone ou tablette et
+                posez le sur le bord du bassin.
               </Text>
             </View>
           </View>
@@ -179,9 +178,6 @@ const styles = StyleSheet.create({
   marginLessView: {
     marginTop: '-30%',
   },
-  // marginLessTextView: {
-  //   marginTop: '-15%',
-  // },
   textCenter: {
     textAlign: 'center',
   },
@@ -202,5 +198,3 @@ if (Device.isTablet) {
     },
   });
 }
-
-export default SwiperScreen;

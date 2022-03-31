@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "302862059597",
+    "project_id": "monmaitrenageur",
+    "storage_bucket": "monmaitrenageur.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302862059597:android:bc03998b94ee6b80953404",
+        "android_client_info": {
+          "package_name": "com.monmaitrenageurmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302862059597-d8sm987fmjoe319r1t6r948ab7uqbqnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoeOsM5X6N57FUJU3ILsq9DJkrYA1rAug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302862059597-d8sm987fmjoe319r1t6r948ab7uqbqnc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302862059597-7fm460fcf474dfk1g347f7cp93jmdt7i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.monmaitrenageur"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
