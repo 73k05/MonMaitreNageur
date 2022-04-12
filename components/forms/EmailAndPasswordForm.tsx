@@ -116,7 +116,7 @@ export const EmailAndPasswordForm = ({
           autoCompleteType={'email'}
           autoCorrect={false}
           keyboardType={'email-address'}
-          placeholder={'Adresse email'}
+          placeholder={'Email'}
           textContentType={'username'}
           noUnderline={true}
           value={email}
@@ -129,7 +129,6 @@ export const EmailAndPasswordForm = ({
           placeholder={passwordLabel}
           secureTextEntry={true}
           autoCompleteType={'password'}
-          keyboardType={'visible-password'}
           noUnderline={true}
           value={motDePasse}
           onChangeText={(value: string) => setMotDePasse(value)}
@@ -171,7 +170,7 @@ export const EmailAndPasswordForm = ({
               );
               setToggleCheckBox(true);
             }}>
-            J'ai pris connnaissance des conditions générales d'utilisation
+            J'ai pris connaissance des conditions générales d'utilisation
           </Link>
         </View>
       )}
@@ -192,7 +191,6 @@ const styles = StyleSheet.create({
   container: {},
   errorMessageView: {
     paddingBottom: 30,
-    // paddingTop: 10,
     textAlign: 'center',
   },
   errorMessageText: {

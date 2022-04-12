@@ -15,7 +15,7 @@ import {useAuth} from '../Auth';
 import {appVersion, osName} from '../utils';
 import {useNotification} from '../hooks/useNotification';
 
-const LOGIN = gql`
+export const LOGIN = gql`
   mutation Login(
     $email: String!
     $motDePasse: String!

@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Device from 'react-native-device-detection';
 import {LogoIcon, CloseIcon, BackIcon} from '../';
 import {useNavigation} from '@react-navigation/native';
 
