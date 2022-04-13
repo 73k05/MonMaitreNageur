@@ -17,7 +17,7 @@ export * from './SevenDaysScreen';
 export * from './CongratulationsScreen';
 export * from './SeanceScreen';
 export * from './ExerciseScreen';
-export * from './SubscriptionScreen';
+// export * from './SubscriptionScreen';
 export * from './InfoDeleteScreen';
 export * from './ContactScreen';
 export * from './PrerequisitesScreen';
